@@ -1,0 +1,109 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+.venv/
+env/
+venv/
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+pytest_cache/
+
+# ==========================
+# Django
+# ==========================
+*.log
+*.pot
+*.pyc
+
+# Django specific
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Media and Static
+media/
+staticfiles/
+static/
+
+# ==========================
+# Environment variables
+# ==========================
+.env
+*.env
+.env.*
+!example.env
+
+# decouple file
+.env.example
+
+# ==========================
+# IDE / Editor files
+# ==========================
+# VSCode
+.vscode/
+
+# JetBrains (PyCharm)
+.idea/
+*.iml
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# ==========================
+# System files
+# ==========================
+.DS_Store
+Thumbs.db
+
+# ==========================
+# Logs
+# ==========================
+logs/
+*.log
+
+# ==========================
+# Telegram Bot related
+# ==========================
+# Aiogram session files
+*.session
+*.session-journal
+
+# Bot cache
+telegram_bot/__pycache__/
+
+.gitignore
