@@ -10,9 +10,11 @@ class ServiceTypeChoices(models.TextChoices):
 
 
 class StatusChoices(models.TextChoices):
-    NEW_LED = 'new led', 'New Led'
-    LATER = 'later', 'Later'
-    FAILED = 'failed', 'Failed'
+    NEW_LED = 'new_led', 'New Led'           # yangi lead
+    LATER = 'later', 'Later'                 # keyinchalik qo'ng'iroq
+    FAILED = 'failed', 'Failed'              # mijoz yo‘qotilgan
+    SUCCESS = 'success', 'Success'           # mijoz bizning xizmatdan foydalanishga rozi
+
 
 
 class CallTimeChoices(models.TextChoices):

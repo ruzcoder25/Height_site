@@ -15,6 +15,10 @@ from .serializers import (
     # ImportContactsSerializer
 )
 from rest_framework.generics import ListAPIView
+from datetime import datetime
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
 
 
 class ContactViewSet(viewsets.ModelViewSet):
@@ -49,6 +53,8 @@ class ContactViewSet(viewsets.ModelViewSet):
             qs = qs.filter(status_led=StatusChoices.LATER)
         elif self.action == "failed":
             qs = qs.filter(status_led=StatusChoices.FAILED)
+        elif self.action == "success_lead":
+            qs = qs.filter(status_led=StatusChoices.SUCCESS)
 
         return qs
 
@@ -173,6 +179,17 @@ class ContactViewSet(viewsets.ModelViewSet):
             "data": serializer.data
         })
 
+    @action(detail=False, methods=['get'])
+    def success_lead(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({
+            "success": True,
+            "status": 200,
+            "message": "Biz bilan hamkorlik qilayotgan mijozlar ro'yhati",
+            "data": serializer.data
+        })
+
 #
 # class ImportAPIView(APIView):
 #     parser_classes = [MultiPartParser, FormParser]
@@ -211,26 +228,51 @@ class ContactViewSet(viewsets.ModelViewSet):
 #         except Exception as e:
 #             return Response({"error": str(e)}, status=400)
 
+
 class ExportAPIView(ListAPIView):
     queryset = Contacts.objects.all()
-    serializer_class = ContactExportSerializer   # Swagger uchun kerak
+    serializer_class = ContactExportSerializer
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name="status",
+                in_=openapi.IN_QUERY,
+                description="Filter by status",
+                type=openapi.TYPE_STRING,
+                enum=[choice.value for choice in StatusChoices]
+            )
+        ],
+        operation_description="Export Contacts to Excel. Optionally filter by status",
+        responses={200: "Excel file"}
+    )
     def get(self, request, *args, **kwargs):
+        # 1️⃣ Status filter
+        status_param = request.query_params.get("status")
+        queryset = self.get_queryset()
+        if status_param:
+            queryset = queryset.filter(status_led=status_param)
 
+        # 2️⃣ Kerakli maydonlar
         fields = self.serializer_class.Meta.fields
-        contacts = self.get_queryset().values(*fields)
+        contacts = queryset.values(*fields)
         df = pd.DataFrame(contacts)
 
-        # 1️⃣ created_at ni to'g'ri formatlash
+
+        # 4️⃣ created_at formatlash
         if "created_at" in df.columns:
             df["created_at"] = pd.to_datetime(df["created_at"], errors="coerce")
             df["created_at"] = df["created_at"].dt.strftime("%Y-%m-%d %H:%M:%S")
 
-        # 2️⃣ Excel qaytarish
+
+        timestamp = datetime.now().strftime("%d_%m_%Y__%H_%M_%S")
+        filename = f"contacts__{timestamp}.xlsx"
+
+        # 6️⃣ Excel response
         response = HttpResponse(
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
-        response['Content-Disposition'] = 'attachment; filename=contacts.xlsx'
+        response['Content-Disposition'] = f'attachment; filename={filename}'
 
         df.to_excel(response, index=False)
         return response
