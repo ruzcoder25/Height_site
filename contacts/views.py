@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.parsers import FormParser, MultiPartParser
+# from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 from django.http import HttpResponse
 import pandas as pd
 from common.permissions import IsAdmin, IsModeratorOrAdmin
@@ -11,9 +11,10 @@ from contacts.models import Contacts, StatusChoices
 from .serializers import (
     ContactListSerializer,
     CreateContactsSerializer,
-    UpdateStatusSerializer,
-    ImportContactsSerializer
+    UpdateStatusSerializer, ContactExportSerializer,
+    # ImportContactsSerializer
 )
+from rest_framework.generics import ListAPIView
 
 
 class ContactViewSet(viewsets.ModelViewSet):
@@ -210,29 +211,22 @@ class ContactViewSet(viewsets.ModelViewSet):
 #         except Exception as e:
 #             return Response({"error": str(e)}, status=400)
 
-class ExportAPIView(APIView):
-    def get(self, request):
-        fields = [
-            "id", "full_name", "phone_number", "business_name",
-            "service_type","status_led", "call_time", "month",
-            "day", "year","user_comment", "created_at"
-        ]
+class ExportAPIView(ListAPIView):
+    queryset = Contacts.objects.all()
+    serializer_class = ContactExportSerializer   # Swagger uchun kerak
 
-        contacts = Contacts.objects.all().values(*fields)
+    def get(self, request, *args, **kwargs):
+
+        fields = self.serializer_class.Meta.fields
+        contacts = self.get_queryset().values(*fields)
         df = pd.DataFrame(contacts)
 
-        # 1️⃣ created_at ni Excel-friendly formatga o‘tkazish
+        # 1️⃣ created_at ni to'g'ri formatlash
         if "created_at" in df.columns:
             df["created_at"] = pd.to_datetime(df["created_at"], errors="coerce")
             df["created_at"] = df["created_at"].dt.strftime("%Y-%m-%d %H:%M:%S")
 
-        # Agar boshqa datetime bo‘lsa, ham qo‘shish mumkin
-        for col in ["updated_at", "timestamp"]:
-            if col in df.columns:
-                df[col] = pd.to_datetime(df[col], errors="coerce")
-                df[col] = df[col].dt.strftime("%Y-%m-%d %H:%M:%S")
-
-        # 2️⃣ Excel response
+        # 2️⃣ Excel qaytarish
         response = HttpResponse(
             content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )

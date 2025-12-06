@@ -46,3 +46,13 @@ class UpdateStatusSerializer(serializers.ModelSerializer):
 
 class ImportContactsSerializer(serializers.Serializer):
     file = serializers.FileField()
+
+
+class ContactExportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contacts
+        fields = [
+            "id", "full_name", "phone_number", "business_name",
+            "service_type", "status_led", "call_time", "month",
+            "day", "year", "user_comment", "created_at"
+        ]
