@@ -6,3 +6,5 @@ drf-yasg==1.21.11
 aiogram==3.22.0
 requests==2.32.5
 djangorestframework_simplejwt==5.5.1
+openpyxl==3.1.5
+pandas==2.3.3

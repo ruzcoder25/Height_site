@@ -1,4 +1,5 @@
 from django.db import models
+from common.models import BaseModel
 
 
 class ServiceTypeChoices(models.TextChoices):
@@ -15,13 +16,27 @@ class StatusChoices(models.TextChoices):
 
 
 class CallTimeChoices(models.TextChoices):
-    MORNING = "09-12", "Ertalab 9 dan 12 gacha"
-    MIDDAY = "12-15", "12 dan 15 gacha"
-    AFTERNOON = "15-18", "15 dan 18 gacha"
-    EVENING = "18-21", "18 dan 21 gacha"
-    ANY_TIME = "any", "Istalgan vaqtda"
+    MORNING =  "09:00-12:00","09-12"
+    MIDDAY =  "12:00-15:00","12-15"
+    AFTERNOON = "15:00-18:00","15-18"
+    EVENING =  "18:00-21:00","18-21"
+    ANY_TIME = "Istalgan vaqtda","anytime"
 
-class Contacts(models.Model):
+class MonthChoices(models.TextChoices):
+    JANUARY = "yanvar", "Yanvar"
+    FEBRUARY = "fevtal", "Fevral"
+    MARCH = "mart", "Mart"
+    APRIL = "aprel", "Aprel"
+    MAY = "may", "May"
+    JUNE = "iyun", "Iyun"
+    JULY = "iyul", "Iyul"
+    AUGUST = "avgust", "Avgust"
+    SEPTEMBER = "sentabr", "Sentabr"
+    OCTOBER = "oktabr", "Oktabr"
+    NOVEMBER = "noyabr", "Noyabr"
+    DECEMBER = "dekabr", "Dekabr"
+
+class Contacts(BaseModel):
     full_name = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=20)
     business_name = models.CharField(max_length=200)
@@ -41,7 +56,16 @@ class Contacts(models.Model):
         choices=CallTimeChoices.choices,
         default=CallTimeChoices.ANY_TIME
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+
+    # Oy TextChoices bilan
+    month = models.CharField(
+        max_length=10,
+        choices=MonthChoices.choices,
+        blank=True, null=True)
+    day = models.IntegerField(blank=True, null=True)
+
+    # Yil avtomatik
+    year = models.IntegerField(blank=True, null=True)
 
     class Meta:
         db_table = 'contacts'

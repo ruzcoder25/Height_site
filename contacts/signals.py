@@ -37,3 +37,12 @@ def send_telegram_notification(sender, instance, created, **kwargs):
         requests.post(url, data=payload, timeout=5)
     except Exception as e:
         print("Telegramga yuborishda xatolik:", e)
+
+
+# Auto add year
+@receiver(post_save, sender=Contacts)
+def set_year(sender, instance, created, **kwargs):
+    """Yangi contact yaratilganda yil avtomatik to‘ldiriladi"""
+    if created and instance.year is None:
+        instance.year = instance.created_at.year
+        instance.save(update_fields=["year"])

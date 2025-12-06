@@ -179,6 +179,6 @@ REST_FRAMEWORK = {
 
     # permission classes
     'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated',
+            'rest_framework.permissions.AllowAny',
         ]
 }

@@ -14,7 +14,6 @@ from rest_framework.exceptions import (
     ValidationError,
     Throttled
 )
-from rest_framework.response import Response
 
 
 class GlobalExceptionLoggingMiddleware:

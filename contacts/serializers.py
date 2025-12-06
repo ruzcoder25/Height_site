@@ -26,6 +26,9 @@ class ContactListSerializer(serializers.ModelSerializer):
             'service_type',
             'status_led',
             'call_time',
+            'month',
+            'day',
+            'year',
             'created_at',
 
         ]
@@ -37,4 +40,9 @@ class UpdateStatusSerializer(serializers.ModelSerializer):
             'status_led',
             'user_comment',
             'call_time',
+            'month',
+            'day',
         ]
+
+class ImportContactsSerializer(serializers.Serializer):
+    file = serializers.FileField()

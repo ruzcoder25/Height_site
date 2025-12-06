@@ -1,5 +1,4 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-
 from account.models import RoleChoices
 
 
@@ -18,11 +17,5 @@ class IsModeratorOrAdmin(BasePermission):
             request.user.is_authenticated and
             request.user.role in [RoleChoices.MODERATOR, RoleChoices.ADMIN]
         )
-
-# class IsAdminOrIsSelf(BasePermission):
-#     def has_object_permission(self, request, view, obj):
-#         if request.user.is_authenticated and request.user.role == 'admin':
-#             return True
-#         return obj == request.user
 
 

@@ -1,13 +1,15 @@
 from rest_framework.routers import DefaultRouter
 from .views import ContactViewSet
+from . import views
+from django.urls import path
 
 router = DefaultRouter()
 router.register('contacts', ContactViewSet)
 
 
 urlpatterns = [
-    # path('add-contact/',views.ContactsCreateAPIView.as_view()),
-    # path('list-contact/',views.ListContactAPIView.as_view()),
+    # path('import-exel/',views.ImportAPIView.as_view()),
+    path('export-exel/',views.ExportAPIView.as_view()),
 
 
 ]+router.urls

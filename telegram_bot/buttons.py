@@ -8,16 +8,17 @@ lead_buttons = ReplyKeyboardMarkup(
 
             [
                 KeyboardButton(text="New Leads"),
-                KeyboardButton(text="Later Leads"),
+                KeyboardButton(text="Laret Leads"),
 
             ]
     ],
     resize_keyboard=True
 )
 
-new_inline_button = InlineKeyboardMarkup(
-    inline_keyboard=[[
-        InlineKeyboardButton(text="Barcha buyurtmalar ro'yhati", callback_data="new"),
-        InlineKeyboardButton(text="Buyurtmalarni donalab chiqarish", callback_data="a_lead")
-    ]]
-)
+def lead_inline_kb(lead_id: int):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[[
+            InlineKeyboardButton(text="Comment va Vaqt", callback_data=f"later:{lead_id}"),
+            InlineKeyboardButton(text="Xizmat kerak emas", callback_data=f"failed:{lead_id}")
+        ]]
+    )
