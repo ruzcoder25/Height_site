@@ -107,3 +107,5 @@ logs/
 telegram_bot/__pycache__/
 
 .gitignore
+
+notes.py
