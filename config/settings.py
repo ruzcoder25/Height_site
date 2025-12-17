@@ -53,7 +53,6 @@ INSTALLED_APPS = [
 
 
 ]
-INSTALLED_APPS += ['corsheaders',]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -192,3 +191,15 @@ REST_FRAMEWORK = {
             'rest_framework.permissions.AllowAny',
         ]
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://185.191.141.101:8080",
+    "http://185.191.141.101",
+    "api.ruzcoder25.uz"
+]
+
+# Cookie xavfsizligi
+CSRF_COOKIE_SECURE = True       # HTTPS bo‘lsa True
+SESSION_COOKIE_SECURE = True    # HTTPS bo‘lsa True
+SESSION_COOKIE_HTTPONLY = True  # JS orqali session cookie o‘qilmasligi
+CSRF_COOKIE_HTTPONLY = False     # CSRF token JS orqali ishlatilsa False
