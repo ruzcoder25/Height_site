@@ -1,47 +1,36 @@
-## Django uchun Dockerfile
-#FROM python:3.11-slim
-#
-## Ishchi papkani o‘rnatish
-#WORKDIR /app
-#
-## Faqat requirements faylini avval nusxalash
-## (Docker cache’ni ishlatish uchun)
-#COPY requirements.txt .
-#
-## Pip upgrade va kutubxonalarni o‘rnatish
-#RUN pip install --upgrade pip \
-#    && pip install -r requirements.txt
-#
-## Loyiha fayllarini nusxalash
-#COPY . .
-#
-## Statik fayllarni tayyorlash (agar kerak bo‘lsa)
-## RUN python manage.py collectstatic --noinput
-#
-## Port ochish
-#EXPOSE 8000
-#
-## Django serverni ishga tushirish
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
 FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Atrof-muhit o'zgaruvchilarini sozlash
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
+# Ish katalogini yaratish
 WORKDIR /app
 
-# System dependencies (pandas, psycopg2 uchun)
+# Sistema kutubxonalarini o'rnatish
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpq-dev \
     gcc \
-    && apt-get clean
+    postgresql-client \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
+# Python kutubxonalarini o'rnatish
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
+# Loyiha fayllarini nusxalash
 COPY . .
 
-# static yig‘ish (production uchun)
-RUN python manage.py collectstatic --noinput || true
+# Static fayllarni yig'ish uchun katalog yaratish
+RUN mkdir -p /app/staticfiles /app/mediafiles
+
+# Foydalanuvchi yaratish va ruxsatlar berish
+RUN useradd -m -u 1000 appuser && \
+    chown -R appuser:appuser /app
+USER appuser
+
+# Gunicorn orqali ishga tushirish
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--threads", "2", "--timeout", "120", "config.wsgi:application"]

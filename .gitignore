@@ -1,111 +1,53 @@
-# ==========================
 # Python
-# ==========================
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
 
 # Virtual Environment
-.venv/
-env/
 venv/
+env/
+ENV/
 
-# Distribution / packaging
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# PyInstaller
-*.manifest
-*.spec
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-pytest_cache/
-
-# ==========================
 # Django
-# ==========================
 *.log
-*.pot
-*.pyc
-
-# Django specific
-local_settings.py
 db.sqlite3
 db.sqlite3-journal
+/staticfiles/
+/mediafiles/
+/logs/
 
-# Media and Static
-media/
-staticfiles/
-static/
-
-# ==========================
 # Environment variables
-# ==========================
 .env
-*.env
-.env.*
-!example.env
+.env.local
 
-# decouple file
-.env.example
-
-# ==========================
-# IDE / Editor files
-# ==========================
-# VSCode
+# IDE
 .vscode/
-
-# JetBrains (PyCharm)
 .idea/
-*.iml
+*.swp
+*.swo
+*~
 
-# Sublime
-*.sublime-project
-*.sublime-workspace
-
-# ==========================
-# System files
-# ==========================
+# OS
 .DS_Store
 Thumbs.db
 
-# ==========================
-# Logs
-# ==========================
-logs/
-*.log
+# Docker
+postgres_data/
 
-# ==========================
-# Telegram Bot related
-# ==========================
-# Aiogram session files
-*.session
-*.session-journal
+# SSL certificates
+certbot/
+
+# Notes
+notes.py
+Yes/
 
 # Bot cache
 telegram_bot/__pycache__/
-
-.gitignore
 
 notes.py
