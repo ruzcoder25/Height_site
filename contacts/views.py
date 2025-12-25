@@ -1,9 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
-# from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-# from rest_framework.views import APIView
 from django.http import HttpResponse
 import pandas as pd
 from common.permissions import IsAdmin, IsModeratorOrAdmin
@@ -12,7 +10,6 @@ from .serializers import (
     ContactListSerializer,
     CreateContactsSerializer,
     UpdateStatusSerializer, ContactExportSerializer,
-    # ImportContactsSerializer
 )
 from rest_framework.generics import ListAPIView
 from datetime import datetime
@@ -36,6 +33,8 @@ class ContactViewSet(viewsets.ModelViewSet):
         'new_leds': [AllowAny],
         'later': [AllowAny],
         'failed': [IsAdmin],
+        'counts': [IsAdmin],
+
     }
 
     def get_permissions(self):
@@ -188,6 +187,19 @@ class ContactViewSet(viewsets.ModelViewSet):
             "status": 200,
             "message": "Biz bilan hamkorlik qilayotgan mijozlar ro'yhati",
             "data": serializer.data
+        })
+
+    @action(detail=False, methods=["get"])
+    def counts(self, request):
+        return Response({
+            "success": True,
+            "status": 200,
+            "data": {
+                "new": Contacts.objects.filter(status_led=StatusChoices.NEW_LED).count(),
+                "later": Contacts.objects.filter(status_led=StatusChoices.LATER).count(),
+                "failed": Contacts.objects.filter(status_led=StatusChoices.FAILED).count(),
+                "success": Contacts.objects.filter(status_led=StatusChoices.SUCCESS).count(),
+            }
         })
 
 #

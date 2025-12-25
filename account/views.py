@@ -11,7 +11,6 @@ from account.serializers import (
 )
 
 
-
 class CustomLoginView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
