@@ -2,6 +2,7 @@ from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 from bot.keyboards import get_login_keyboard
+# from ..keyboards import get_login_keyboard
 from bot.services import is_authenticated
 from bot.keyboards import get_main_menu_keyboard
 

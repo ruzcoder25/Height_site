@@ -1,13 +1,16 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# .env faylini yuklash
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
 
 # Bot token
 BOT_TOKEN = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
 
 # API endpoints
-API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000/api/v1")
+API_BASE_URL = os.getenv("API_BASE_URL", "http://host.docker.internal:8000/api/v1")
 API_LOGIN = f"{API_BASE_URL}/accounts/login/"
 API_LEADS_NEW = f"{API_BASE_URL}/contacts/new_leds/"
 API_LEADS_LATER = f"{API_BASE_URL}/contacts/later/"
