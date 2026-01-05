@@ -29,7 +29,7 @@ UNHANDLED_ERROR_LOG_FILE = os.path.join(BASE_DIR, "logs", "my_errors.json")
 # Security
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(",")
 
 # CORS
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
