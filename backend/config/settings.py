@@ -75,11 +75,12 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "common.middleware.global_handler.GlobalExceptionLoggingMiddleware",
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",  # Static fayllar uchun
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -158,13 +159,43 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
+# LANGUAGE_CODE = 'uz'
+#
 TIME_ZONE = 'Asia/Tashkent'
-
-USE_I18N = True
-
+#
+# USE_I18N = True
+# USE_L10N = True
 USE_TZ = True
+# LANGUAGES = (
+#     ('uz', _('Uzbek')),
+#     ('ru', _('Russian')),
+#     ('en', _('English')),
+# )
+#
+#
+# LOCALE_PATHS = [
+#     BASE_DIR/"locale",
+# ]
+from django.utils.translation import gettext_lazy as _
+
+# Qo'llab-quvvatlanadigan tillar
+LANGUAGES = [
+    ('uz', _("O'zbekcha")),
+    ('ru', _('Русский')),
+    ('en', _('English')),
+]
+
+# Asosiy til
+LANGUAGE_CODE = 'uz'
+
+# i18n yoqilgan
+USE_I18N = True
+USE_L10N = True
+
+# Tarjima fayllari joylashadigan papka
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -206,13 +237,20 @@ SWAGGER_SETTINGS = {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header",
-            "description": "Type in the *'Value'* input box below:"
+            "description": "Type in the *'Value'* input box below: "
             "**'Bearer &lt;JWT&gt;'**, "
             "where JWT is the JSON web token you get back when logging in.",
         },
     },
-    "DOC_EXPANSION": False,
+    "DOC_EXPANSION": "none",  # "none", "list", "full"
+    "USE_SESSION_AUTH": False,
+    "PERSIST_AUTH": True,  # Auth tokenni saqlash
+    "REFETCH_SCHEMA_WITH_AUTH": True,
+    "REFETCH_SCHEMA_ON_LOGOUT": True,
 }
+
+
+
 
 
 # REST FRAMEWORK

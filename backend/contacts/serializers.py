@@ -1,11 +1,10 @@
+# serializers.py
 from rest_framework import serializers
 from .models import Contacts, StatusChoices
 import re
+from django.utils.translation import gettext_lazy as _
 
 
-# ============================
-# CREATE CONTACT (SITE)
-# ============================
 class CreateContactsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contacts
@@ -14,39 +13,52 @@ class CreateContactsSerializer(serializers.ModelSerializer):
             'phone_number',
             'business_name',
             'service_type',
-            'status_led',
-            'call_time',
+            'user_comment',
+            'source',
         ]
 
     def validate_full_name(self, value):
         if not value.strip():
-            raise serializers.ValidationError("Full name bo‘sh bo‘lishi mumkin emas.")
+            raise serializers.ValidationError(_("Full name cannot be empty."))
         if len(value) > 100:
-            raise serializers.ValidationError("Full name 100 belgidan oshmasligi kerak.")
+            raise serializers.ValidationError(_("Full name must not exceed 100 characters."))
         return value
 
     def validate_status_led(self, value):
         valid_status = [choice.value for choice in StatusChoices]
         if value not in valid_status:
             raise serializers.ValidationError(
-                f"Status faqat quyidagilardan biri bo‘lishi mumkin: {', '.join(valid_status)}"
+                _("Status must be one of: %(statuses)s") % {'statuses': ', '.join(valid_status)}
             )
         return value
 
     def validate_phone_number(self, value):
-        # O‘zbekiston telefon raqamlari uchun
-        pattern = r'^(?:\+?998|0)?9\d{8}$'
-
-        if not re.match(pattern, value):
+        if '-' in value:
             raise serializers.ValidationError(
-                "Telefon raqam noto‘g‘ri. Masalan: 991234567, 998991234567, +998991234567"
+                _("Phone number should not contain '-' character.")
             )
-        return value
+
+        cleaned = re.sub(r'[^\d+]', '', value)
+
+        if cleaned.startswith('+'):
+            digits = cleaned[1:]
+        else:
+            digits = cleaned
+
+        if not digits.isdigit():
+            raise serializers.ValidationError(
+                _("Phone number has incorrect format.")
+            )
+
+        if len(digits) < 7 or len(digits) > 15:
+            raise serializers.ValidationError(
+                _("Phone number length must be between 7 and 15 digits.")
+            )
+
+        normalized = '+' + digits
+        return normalized
 
 
-# ============================
-# LIST / RETRIEVE
-# ============================
 class ContactListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contacts
@@ -66,9 +78,6 @@ class ContactListSerializer(serializers.ModelSerializer):
         ]
 
 
-# ============================
-# UPDATE STATUS (CRM)
-# ============================
 class UpdateStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contacts
@@ -90,14 +99,11 @@ class UpdateStatusSerializer(serializers.ModelSerializer):
 
         if value not in allowed_status:
             raise serializers.ValidationError(
-                f"Status faqat quyidagilardan biri bo‘lishi mumkin: {', '.join(allowed_status)}"
+                _("Status must be one of: %(statuses)s") % {'statuses': ', '.join(allowed_status)}
             )
         return value
 
 
-# ============================
-# EXPORT TO EXCEL
-# ============================
 class ContactExportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contacts

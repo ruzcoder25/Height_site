@@ -1,0 +1,279 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-03 21:54+0500\n"
+"PO-Revision-Date: 2026-01-03 22:00+0500\n"
+"Last-Translator: Your Name <your@email.com>\n"
+"Language-Team: English <en@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: config/settings.py:183
+msgid "O'zbekcha"
+msgstr "Uzbek"
+
+#: config/settings.py:184
+msgid "Русский"
+msgstr "Russian"
+
+#: config/settings.py:185
+msgid "English"
+msgstr "English"
+
+#: contacts/models.py:8
+msgid "Consultation"
+msgstr "Consultation"
+
+#: contacts/models.py:9
+msgid "Website"
+msgstr "Website"
+
+#: contacts/models.py:10
+msgid "Landing Page"
+msgstr "Landing page"
+
+#: contacts/models.py:11
+msgid "Mobile Application"
+msgstr "Mobile application"
+
+#: contacts/models.py:12
+msgid "ERP System"
+msgstr "ERP system"
+
+#: contacts/models.py:13
+msgid "Telegram Bot"
+msgstr "Telegram bot"
+
+#: contacts/models.py:14
+msgid "Support Bot"
+msgstr "Support bot"
+
+#: contacts/models.py:18
+msgid "New Lead"
+msgstr "New lead"
+
+#: contacts/models.py:19
+msgid "Call Back Later"
+msgstr "Call back later"
+
+#: contacts/models.py:20
+msgid "Service Not Needed"
+msgstr "Service not needed"
+
+#: contacts/models.py:21
+msgid "Using Our Services"
+msgstr "Using our services"
+
+#: contacts/models.py:25
+msgid "Via Instagram"
+msgstr "Through Instagram"
+
+#: contacts/models.py:26
+msgid "Via Google"
+msgstr "Through Google"
+
+#: contacts/models.py:27
+msgid "Via Friends"
+msgstr "Through friends"
+
+#: contacts/models.py:28
+msgid "Via Telegram"
+msgstr "Through Telegram"
+
+#: contacts/models.py:32
+msgid "09:00-12:00"
+msgstr "09:00-12:00"
+
+#: contacts/models.py:33
+msgid "12:00-15:00"
+msgstr "12:00-15:00"
+
+#: contacts/models.py:34
+msgid "15:00-18:00"
+msgstr "15:00-18:00"
+
+#: contacts/models.py:35
+msgid "18:00-21:00"
+msgstr "18:00-21:00"
+
+#: contacts/models.py:36
+msgid "Call Anytime"
+msgstr "Call anytime"
+
+#: contacts/models.py:40
+msgid "January"
+msgstr "January"
+
+#: contacts/models.py:41
+msgid "February"
+msgstr "February"
+
+#: contacts/models.py:42
+msgid "March"
+msgstr "March"
+
+#: contacts/models.py:43
+msgid "April"
+msgstr "April"
+
+#: contacts/models.py:44
+msgid "May"
+msgstr "May"
+
+#: contacts/models.py:45
+msgid "June"
+msgstr "June"
+
+#: contacts/models.py:46
+msgid "July"
+msgstr "July"
+
+#: contacts/models.py:47
+msgid "August"
+msgstr "August"
+
+#: contacts/models.py:48
+msgid "September"
+msgstr "September"
+
+#: contacts/models.py:49
+msgid "October"
+msgstr "October"
+
+#: contacts/models.py:50
+msgid "November"
+msgstr "November"
+
+#: contacts/models.py:51
+msgid "December"
+msgstr "December"
+
+#: contacts/models.py:55
+msgid "Full Name"
+msgstr "Full name"
+
+#: contacts/models.py:56
+msgid "Phone Number"
+msgstr "Phone number"
+
+#: contacts/models.py:57
+msgid "Business Name"
+msgstr "Business name"
+
+#: contacts/models.py:58
+msgid "User Comment"
+msgstr "User comment"
+
+#: contacts/models.py:59
+msgid "Operator Comment"
+msgstr "Operator comment"
+
+#: contacts/models.py:65
+msgid "Source"
+msgstr "How did you hear about us?"
+
+#: contacts/models.py:71
+msgid "Service Type"
+msgstr "Service type"
+
+#: contacts/models.py:77
+msgid "Lead Status"
+msgstr "Lead status"
+
+#: contacts/models.py:83
+msgid "Call Time"
+msgstr "Call time"
+
+#: contacts/models.py:89
+msgid "Month"
+msgstr "Month"
+
+#: contacts/models.py:91
+msgid "Day"
+msgstr "Day"
+
+#: contacts/models.py:92
+msgid "Year"
+msgstr "Year"
+
+#: contacts/models.py:97
+msgid "Contact"
+msgstr "Contact"
+
+#: contacts/models.py:98
+msgid "Contacts"
+msgstr "Contacts"
+
+#: contacts/serializers.py:23
+msgid "Full name cannot be empty."
+msgstr "Full name cannot be empty."
+
+#: contacts/serializers.py:25
+msgid "Full name must not exceed 100 characters."
+msgstr "Full name must not exceed 100 characters."
+
+#: contacts/serializers.py:32 contacts/serializers.py:103
+#, python-format
+msgid "Status must be one of: %(statuses)s"
+msgstr "Status must be one of: %(statuses)s"
+
+#: contacts/serializers.py:39
+msgid "Phone number should not contain '-' character."
+msgstr "Phone number should not contain '-' character."
+
+#: contacts/serializers.py:51
+msgid "Phone number has incorrect format."
+msgstr "Phone number has incorrect format."
+
+#: contacts/serializers.py:56
+msgid "Phone number length must be between 7 and 15 digits."
+msgstr "Phone number length must be between 7 and 15 digits."
+
+#: contacts/views.py:72
+msgid "All contacts list"
+msgstr "All contacts list"
+
+#: contacts/views.py:82
+msgid "Single contact information"
+msgstr "Single contact information"
+
+#: contacts/views.py:94
+msgid "Contact created successfully"
+msgstr "Contact created successfully"
+
+#: contacts/views.py:113
+msgid "Contact fully updated"
+msgstr "Contact fully updated"
+
+#: contacts/views.py:128
+msgid "Contact partially updated"
+msgstr "Contact partially updated"
+
+#: contacts/views.py:141
+msgid "Contact deleted"
+msgstr "Contact deleted"
+
+#: contacts/views.py:151
+msgid "New leads"
+msgstr "New leads"
+
+#: contacts/views.py:162
+msgid "Call back later leads"
+msgstr "Call back later leads"
+
+#: contacts/views.py:173
+msgid "Service not needed leads"
+msgstr "Service not needed leads"
+
+#: contacts/views.py:184
+msgid "Clients working with us"
+msgstr "Clients working with us"
