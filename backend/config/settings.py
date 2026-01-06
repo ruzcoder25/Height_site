@@ -29,13 +29,28 @@ UNHANDLED_ERROR_LOG_FILE = os.path.join(BASE_DIR, "logs", "my_errors.json")
 # Security
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(",")
+
+# ✅ FIX: ALLOWED_HOSTS listini tozalab, kerakli hostlarni avtomatik qo‘shamiz
+ALLOWED_HOSTS = [h.strip() for h in config('ALLOWED_HOSTS', default='').split(",") if h.strip()]
+# Docker ichidagi servis nomlari (logda backend:8000 kelgani uchun)
+for _h in ("backend", "django_api", "localhost", "127.0.0.1"):
+    if _h not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_h)
 
 # CORS
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
-CORS_ALLOW_ALL_ORIGINS = True
+# ✅ FIX: os.getenv o‘rniga decouple/config ishlatamiz (siz .env ni config orqali o‘qiyapsiz)
+CORS_ALLOWED_ORIGINS = [o.strip() for o in config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000').split(',') if o.strip()]
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in config('CSRF_TRUSTED_ORIGINS', default='http://localhost').split(',') if o.strip()]
+
+# ✅ FIX: CORS_ALLOW_ALL_ORIGINS=True + CORS_ALLOW_CREDENTIALS=True xavfli va ko‘p holatda ishlamaydi
+# dev’da hamma origin’ga ruxsat berish kerak bo‘lsa .env orqali boshqaring
+CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bool)
 CORS_ALLOW_CREDENTIALS = True
+
+# ✅ ADD: HTTPS reverse proxy (nginx/traefik) uchun Django to‘g‘ri https deb bilishi kerak
+# (CSRF admin/login muammosini ham shu ko‘p hal qiladi)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
 
 # Security sozlamalari production uchun
 if not DEBUG:
@@ -70,8 +85,6 @@ INSTALLED_APPS = [
     'account',
     'common',
     'contacts',
-
-
 ]
 
 MIDDLEWARE = [
@@ -91,7 +104,9 @@ MIDDLEWARE = [
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROOT_URLCONF = 'config.urls'
-CORS_ALLOW_ALL_ORIGINS = True
+
+# ✅ FIX: bu qator xavfli edi, CORS_ALLOW_ALL_ORIGINS yuqorida env bilan boshqariladi
+# CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
@@ -196,7 +211,7 @@ USE_L10N = True
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
-
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -250,9 +265,6 @@ SWAGGER_SETTINGS = {
 }
 
 
-
-
-
 # REST FRAMEWORK
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -267,7 +279,6 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ),
 }
-
 
 
 SIMPLE_JWT = {
