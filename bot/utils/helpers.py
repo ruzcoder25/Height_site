@@ -17,7 +17,7 @@ def format_lead_info(lead: dict) -> str:
         f"🏢 Biznes: {business}\n"
         f"📌 Status: {status}\n"
         f"🛠️ Hizmat turi: {service_type}\n"
-        f"💬 User izohi: {user_comment}\n"
-        f"💬 Operator izohi: {operator_comment}\n"
+        f"💬 User izohi: {operator_comment}\n"
+        f"💬 Operator izohi: {user_comment}\n"
     )
     return text
