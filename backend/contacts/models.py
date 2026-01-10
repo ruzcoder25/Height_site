@@ -27,28 +27,28 @@ class SourceChoices(models.TextChoices):
     FRIENDS = 'friends', _('Via Friends')
     TELEGRAM = 'telegram', _('Via Telegram')
 
-
-class CallTimeChoices(models.TextChoices):
-    MORNING = "09:00-12:00", _("09:00-12:00")
-    MIDDAY = "12:00-15:00", _("12:00-15:00")
-    AFTERNOON = "15:00-18:00", _("15:00-18:00")
-    EVENING = "18:00-21:00", _("18:00-21:00")
-    ANY_TIME = "anytime", _("Call Anytime")
-
-
-class MonthChoices(models.TextChoices):
-    JANUARY = "yanvar", _("January")
-    FEBRUARY = "fevral", _("February")
-    MARCH = "mart", _("March")
-    APRIL = "aprel", _("April")
-    MAY = "may", _("May")
-    JUNE = "iyun", _("June")
-    JULY = "iyul", _("July")
-    AUGUST = "avgust", _("August")
-    SEPTEMBER = "sentabr", _("September")
-    OCTOBER = "oktabr", _("October")
-    NOVEMBER = "noyabr", _("November")
-    DECEMBER = "dekabr", _("December")
+#
+# class CallTimeChoices(models.TextChoices):
+#     MORNING = "09:00-12:00", _("09:00-12:00")
+#     MIDDAY = "12:00-15:00", _("12:00-15:00")
+#     AFTERNOON = "15:00-18:00", _("15:00-18:00")
+#     EVENING = "18:00-21:00", _("18:00-21:00")
+#     ANY_TIME = "anytime", _("Call Anytime")
+#
+#
+# class MonthChoices(models.TextChoices):
+#     JANUARY = "yanvar", _("January")
+#     FEBRUARY = "fevral", _("February")
+#     MARCH = "mart", _("March")
+#     APRIL = "aprel", _("April")
+#     MAY = "may", _("May")
+#     JUNE = "iyun", _("June")
+#     JULY = "iyul", _("July")
+#     AUGUST = "avgust", _("August")
+#     SEPTEMBER = "sentabr", _("September")
+#     OCTOBER = "oktabr", _("October")
+#     NOVEMBER = "noyabr", _("November")
+#     DECEMBER = "dekabr", _("December")
 
 
 class Contacts(BaseModel):
@@ -76,20 +76,20 @@ class Contacts(BaseModel):
         default=StatusChoices.NEW_LED,
         verbose_name=_('Lead Status')
     )
-    call_time = models.CharField(
-        max_length=50,
-        choices=CallTimeChoices.choices,
-        default=CallTimeChoices.ANY_TIME,
-        verbose_name=_('Call Time')
-    )
-    month = models.CharField(
-        max_length=10,
-        choices=MonthChoices.choices,
-        blank=True, null=True,
-        verbose_name=_('Month')
-    )
-    day = models.IntegerField(blank=True, null=True, verbose_name=_('Day'))
-    year = models.IntegerField(blank=True, null=True, verbose_name=_('Year'))
+    # call_time = models.CharField(
+    #     max_length=50,
+    #     choices=CallTimeChoices.choices,
+    #     default=CallTimeChoices.ANY_TIME,
+    #     verbose_name=_('Call Time')
+    # )
+    # month = models.CharField(
+    #     max_length=10,
+    #     choices=MonthChoices.choices,
+    #     blank=True, null=True,
+    #     verbose_name=_('Month')
+    # )
+    # day = models.IntegerField(blank=True, null=True, verbose_name=_('Day'))
+    # year = models.IntegerField(blank=True, null=True, verbose_name=_('Year'))
 
     class Meta:
         db_table = 'contacts'

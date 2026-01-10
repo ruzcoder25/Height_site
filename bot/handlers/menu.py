@@ -1,3 +1,4 @@
+# bot/handlers/menu.py
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
@@ -9,9 +10,12 @@ router = Router()
 
 @router.message(F.text == "⬅️ Orqaga")
 async def back_to_main_menu(message: Message, state: FSMContext):
-    """Asosiy menyuga qaytish"""
-    user_id = message.from_user.id
+    # ✅ Agar state bor bo‘lsa (lead flow), bu handler aralashmasin
+    current_state = await state.get_state()
+    if current_state is not None:
+        return
 
+    user_id = message.from_user.id
     if not is_authenticated(user_id):
         await message.answer(
             "Tizimga kirmagansiz. Iltimos, login qiling.",
@@ -19,16 +23,11 @@ async def back_to_main_menu(message: Message, state: FSMContext):
         )
         return
 
-    await state.clear()
-    await message.answer(
-        "🏠 Asosiy menyu",
-        reply_markup=get_main_menu_keyboard()
-    )
+    await message.answer("🏠 Asosiy menyu", reply_markup=get_main_menu_keyboard())
 
 
 @router.message(F.text == "🚪 Chiqish")
 async def logout(message: Message, state: FSMContext):
-    """Tizimdan chiqish"""
     user_id = message.from_user.id
     clear_user_session(user_id)
     await state.clear()

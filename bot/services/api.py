@@ -1,3 +1,4 @@
+# bot/services/api.py
 import logging
 import aiohttp
 
@@ -119,19 +120,23 @@ async def update_lead(
 
     if call_date:
         payload["call_time"] = call_date
+
     print(f"services/api.py payload : {payload}")
     if not payload:
         return False
 
     try:
         async with aiohttp.ClientSession() as session:
+            # DRF ko'pincha trailing slash talab qiladi
+            url = f"{API_LEADS_UPDATE}{lead_id}/"
+
             async with session.patch(
-                f"{API_LEADS_UPDATE}{lead_id}",
+                url,
                 headers={"Authorization": f"Bearer {token}"},
                 json=payload
             ) as response:
-
-                return response.status == 200
+                # ba'zi patchlar 200 yoki 204 qaytaradi
+                return response.status in (200, 204)
 
     except Exception:
         logger.exception("update_lead xatolik")

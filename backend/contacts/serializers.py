@@ -68,12 +68,13 @@ class ContactListSerializer(serializers.ModelSerializer):
             'phone_number',
             'business_name',
             'user_comment',
+            'operator_comment',
             'service_type',
             'status_led',
-            'call_time',
-            'month',
-            'day',
-            'year',
+            # 'call_time',
+            # 'month',
+            # 'day',
+            # 'year',
             'created_at',
         ]
 
@@ -83,11 +84,10 @@ class UpdateStatusSerializer(serializers.ModelSerializer):
         model = Contacts
         fields = [
             'status_led',
-            'user_comment',
-            'call_time',
-            'month',
-            'day',
-            'year',
+            'operator_comment',
+            # 'call_time',
+            # 'month',
+            # 'day',
         ]
 
     def validate_status_led(self, value):
@@ -113,10 +113,10 @@ class ContactExportSerializer(serializers.ModelSerializer):
             "business_name",
             "service_type",
             "status_led",
-            "call_time",
-            "month",
-            "day",
-            "year",
+            # "call_time",
+            # "month",
+            # "day",
+            # "year",
             "user_comment",
             "created_at",
         ]

@@ -1,14 +1,16 @@
+# bot/main.py
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
+
 from .config import BOT_TOKEN
 from bot.handlers import start, login, menu, leads
 
 # Logging sozlash
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
 
@@ -19,11 +21,13 @@ async def main():
     storage = MemoryStorage()
     dp = Dispatcher(storage=storage)
 
-    # Handlerlarni ro'yxatdan o'tkazish
+    # ✅ Routerlar tartibi juda muhim:
+    # - leads router "⬅️ Orqaga" va lead flow state-larini ushlaydi
+    # - menu router umumiy back/logout kabi narsalarni ushlaydi
     dp.include_router(start.router)
     dp.include_router(login.router)
-    dp.include_router(menu.router)
-    dp.include_router(leads.router)
+    dp.include_router(leads.router)  # ✅ oldin
+    dp.include_router(menu.router)   # ✅ keyin
 
     logger.info("Bot ishga tushmoqda...")
 
