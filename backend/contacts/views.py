@@ -47,6 +47,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         'success_lead': [IsModeratorOrAdmin],
         'counts': [IsAdmin],
     }
+    # authentication_classes = []
 
     def get_permissions(self):
         try:
